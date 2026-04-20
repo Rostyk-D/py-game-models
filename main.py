@@ -9,7 +9,9 @@ def main() -> None:
     with open("players.json", encoding="utf-8") as file:
         data = json.load(file)
 
-    for player_data in data:
+    players = data["players"]
+
+    for player_data in players:
         race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
