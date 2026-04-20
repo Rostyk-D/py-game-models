@@ -24,12 +24,14 @@ def main() -> None:
                 defaults={"description": guild_data.get("description")},
             )
 
-        Player.objects.create(
+        Player.objects.get_or_create(
             nickname=nickname,
-            email=player_data["email"],
-            bio=player_data["bio"],
-            race=race,
-            guild=guild,
+            defaults={
+                "email": player_data["email"],
+                "bio": player_data["bio"],
+                "race": race,
+                "guild": guild,
+            },
         )
 
         for skill_data in race_data.get("skills", []):
