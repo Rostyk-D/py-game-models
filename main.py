@@ -9,9 +9,7 @@ def main() -> None:
     with open("players.json", encoding="utf-8") as file:
         data = json.load(file)
 
-    players = data["players"]
-
-    for player_data in players:
+    for player_data in data["players"]:
         race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
@@ -38,7 +36,7 @@ def main() -> None:
             Skill.objects.get_or_create(
                 name=skill_data["name"],
                 defaults={
-                    "bonus": skill_data["bonus"],
+                    "bonus": skill_data.get("bonus", ""),
                     "race": race
                 }
             )
