@@ -9,15 +9,7 @@ def main() -> None:
     with open("players.json", encoding="utf-8") as file:
         data = json.load(file)
 
-    if isinstance(data, list):
-        players_data = data
-    else:
-        players_data = next(
-            (value for value in data.values() if isinstance(value, list)),
-            []
-        )
-
-    for player_data in players_data:
+    for nickname, player_data in data.items():
         race_data = player_data["race"]
         race, _ = Race.objects.get_or_create(
             name=race_data["name"],
@@ -33,7 +25,7 @@ def main() -> None:
             )
 
         Player.objects.create(
-            nickname=player_data["nickname"],
+            nickname=nickname,
             email=player_data["email"],
             bio=player_data["bio"],
             race=race,
@@ -45,7 +37,7 @@ def main() -> None:
                 name=skill_data["name"],
                 defaults={
                     "bonus": skill_data.get("bonus", ""),
-                    "race": race
+                    "race": race,
                 }
             )
 
